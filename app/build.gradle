@@ -1,0 +1,98 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.1"
+
+    defaultConfig {
+        applicationId "com.eric.museumhilt"
+        minSdkVersion 16
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+      //  testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.emedinaa.kotlinmvvm.CustomTestRunner"
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+    /**
+     * Cannot find a version of 'com.google.code.findbugs:jsr305' that satisfies the version constraints:
+     *    Dependency path 'KotlinMVVM:app:unspecified' --> 'androidx.test.espresso:espresso-core:3.2.0' --> 'com.google.code.findbugs:jsr305:2.0.1'
+     *    Constraint path 'KotlinMVVM:app:unspecified' --> 'com.google.code.findbugs:jsr305:{strictly 3.0.1}' because of the following reason: debugRuntimeClasspath uses version 3.0.1
+     *    Dependency path 'KotlinMVVM:app:unspecified' --> 'com.google.dagger:hilt-android-testing:2.28-alpha' --> 'com.google.code.findbugs:jsr305:3.0.1'
+     *    Dependency path 'KotlinMVVM:app:unspecified' --> 'com.google.dagger:hilt-android:2.28-alpha' --> 'com.google.code.findbugs:jsr305:3.0.1'
+     *    Dependency path 'KotlinMVVM:app:unspecified' --> 'com.google.dagger:hilt-android-testing:2.28-alpha' --> 'com.google.guava:guava:27.1-jre' --> 'com.google.code.findbugs:jsr305:3.0.2'
+     */
+    configurations.all {
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.1'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.appcompat:appcompat:$appCompatVersion"
+    implementation "androidx.core:core-ktx:$androidXVersion"
+    implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
+    implementation "androidx.recyclerview:recyclerview:$recyclerViewVersion"
+    implementation "androidx.cardview:cardview:$cardViewVersion"
+
+    testImplementation "junit:junit:$junitVersion"
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation "android.arch.core:core-testing:$archTestingVersion"
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.0'
+
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test:rules:1.1.1'
+    androidTestImplementation "androidx.test:runner:$runnerVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"
+    androidTestImplementation "org.mockito:mockito-core:$mockitoVersion"
+
+    implementation "androidx.lifecycle:lifecycle-extensions:$archLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleKtxVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewmodelKtxVersion"
+    implementation "androidx.fragment:fragment-ktx:$fragmentKtxVersion"
+    kapt "androidx.lifecycle:lifecycle-compiler:$archLifecycleVersion"
+
+    implementation "com.squareup.retrofit2:retrofit:$retrofit2"
+    implementation "com.google.code.gson:gson:$gsonVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$gson"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3"
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
+
+    implementation "com.google.dagger:hilt-android:$hiltVersion"
+    kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hiltAndroidXVersion"
+    kapt "androidx.hilt:hilt-compiler:$hiltAndroidXVersion"
+
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hiltVersion"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hiltVersion"
+    kaptAndroidTest "androidx.hilt:hilt-compiler:$hiltAndroidXVersion"
+
+    //androidTestImplementation "androidx.annotation:annotation:$androidXAnnotations"
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
+
+}
